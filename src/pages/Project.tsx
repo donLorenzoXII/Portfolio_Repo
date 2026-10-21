@@ -1,15 +1,13 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { getNextProject, getProject, projects, type GalleryItem } from '../content/projects'
+import { useParams } from 'react-router-dom'
+import { getProject, projects, type GalleryItem } from '../content/projects'
 import { Page, usePageTransition } from '../components/layout/Transitions'
-import { Arrow } from '../components/ui/Icons'
-import { Magnetic } from '../components/ui/Magnetic'
 import { SplitLines } from '../components/ui/SplitLines'
 import { Contact } from '../components/sections/Contact'
+import { ProjectStrip } from '../components/sections/ProjectStrip'
 import { useGsap } from '../hooks/useGsap'
 import { useReducedMotion } from '../hooks/useMediaQuery'
 import { gsap } from '../lib/gsap'
-import { RETURN_KEY } from '../lib/constants'
 import NotFound from './NotFound'
 
 const spanClass: Record<NonNullable<GalleryItem['span']>, string> = {
@@ -27,9 +25,7 @@ export default function ProjectPage() {
 
 function ProjectView({ slug }: { slug: string }) {
   const project = getProject(slug)!
-  const next = getNextProject(slug)
   const index = projects.findIndex((p) => p.slug === slug)
-  const navigate = useNavigate()
   const reduced = useReducedMotion()
   const { releaseExpand, kind } = usePageTransition()
   const arrivedByExpand = useRef(kind === 'expand')
@@ -100,16 +96,6 @@ function ProjectView({ slug }: { slug: string }) {
     return () => io.disconnect()
   }, [reduced])
 
-  const back = (e: React.MouseEvent) => {
-    e.preventDefault()
-    try {
-      sessionStorage.setItem(RETURN_KEY, '#work')
-    } catch {
-      /* ignore */
-    }
-    navigate('/')
-  }
-
   const meta = [
     { label: 'Category', value: project.category },
     { label: 'Year', value: project.year },
@@ -131,10 +117,7 @@ function ProjectView({ slug }: { slug: string }) {
           />
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/30" />
 
-          <div className="container-x absolute inset-x-0 top-[calc(var(--nav-h)+0.75rem)] flex items-center justify-between">
-            <a href="/" onClick={back} className="label link-draw flex items-center gap-3" data-head-fade>
-              <Arrow direction="left" className="w-8" /> All work
-            </a>
+          <div className="container-x absolute inset-x-0 top-[calc(var(--nav-h)+0.75rem)] flex items-center justify-end">
             <p className="label" data-head-fade>
               <span className="text-terra">{String(index + 1).padStart(2, '0')}</span> / {String(projects.length).padStart(2, '0')}
             </p>
@@ -233,37 +216,8 @@ function ProjectView({ slug }: { slug: string }) {
           </div>
         </section>
 
-        {/* ───────── next project ───────── */}
-        <section className="border-t border-hair">
-          <Link to={`/projects/${next.slug}`} className="container-x group relative flex flex-col gap-6 overflow-hidden py-16 md:py-24" data-cursor="NEXT">
-            <div className="flex items-center justify-between">
-              <span className="label text-stone">Next project</span>
-              <span className="label">{next.category} — {next.year}</span>
-            </div>
-            <div className="flex items-end justify-between gap-6">
-              <span className="font-serif text-[length:var(--fs-h2)] leading-[0.9] transition-transform duration-700 ease-expo group-hover:translate-x-3">
-                {next.title}
-              </span>
-              <Magnetic>
-                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-ink transition-colors duration-500 group-hover:border-terra group-hover:bg-terra group-hover:text-cream md:h-24 md:w-24">
-                  <Arrow className="w-8 md:w-10" />
-                </span>
-              </Magnetic>
-            </div>
-            <img
-              src={next.cover}
-              alt=""
-              loading="lazy"
-              aria-hidden="true"
-              className="pointer-events-none absolute right-[22%] top-1/2 hidden w-44 -translate-y-1/2 rotate-6 scale-90 rounded-[var(--radius-card)] opacity-0 shadow-2xl transition-all duration-700 ease-expo group-hover:rotate-3 group-hover:scale-100 group-hover:opacity-100 lg:block"
-            />
-          </Link>
-          <div className="container-x pb-10">
-            <a href="/" onClick={back} className="label link-draw inline-flex items-center gap-3">
-              <Arrow direction="left" className="w-8" /> Back to all work
-            </a>
-          </div>
-        </section>
+        {/* ───────── more projects ───────── */}
+        <ProjectStrip currentSlug={project.slug} />
 
         <Contact compact />
       </div>

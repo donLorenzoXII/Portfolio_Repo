@@ -27,7 +27,10 @@ export default function General() {
         <Card title="Showreel">
           <Grid>
             <LinesInput label="Headline" value={showreel.title} onChange={(v) => update((d) => void (d.showreel.title = v))} />
-            <TextInput label="Year" value={showreel.year} onChange={(v) => update((d) => void (d.showreel.year = v))} />
+            <div className="space-y-5">
+              <TextInput label="Published in (year)" value={showreel.year} onChange={(v) => update((d) => void (d.showreel.year = v))} />
+              <TextInput label="Tags line" value={showreel.tags} onChange={(v) => update((d) => void (d.showreel.tags = v))} />
+            </div>
           </Grid>
           <Grid>
             <MediaInput label="Video" hint="MP4, landscape. Plays muted until the visitor unmutes it." accept="video" value={showreel.src} onChange={(v) => update((d) => void (d.showreel.src = v))} />

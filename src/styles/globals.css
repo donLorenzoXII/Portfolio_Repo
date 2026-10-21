@@ -218,7 +218,10 @@ html.has-cursor * {
 .hero-outline {
   color: transparent;
   /* same cream as the page, so the letters read as cut-outs over the face */
-  -webkit-text-stroke: 1.5px rgb(var(--c-cream));
+  -webkit-text-stroke: 1px rgb(var(--c-cream));
+}
+@media (max-width: 640px) {
+  .hero-outline { -webkit-text-stroke-width: 0.6px; }
 }
 @keyframes scroll-line {
   0% { transform: scaleY(0); transform-origin: top; }

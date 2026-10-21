@@ -69,6 +69,7 @@ export const showreel = {
   label: 'Showreel',
   title: ['A minute', 'in motion'],
   year: '2025',
+  tags: 'Branding · Social · Motion',
   src: '/media/showreel.mp4', // TODO: replace with your real showreel
   poster: '/media/showreel-poster.webp',
 }

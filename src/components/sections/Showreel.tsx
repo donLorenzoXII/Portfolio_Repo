@@ -4,6 +4,7 @@ import { useGsap } from '../../hooks/useGsap'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
 import { gsap } from '../../lib/gsap'
 import { MuteIcon, PauseIcon, PlayIcon, SoundIcon } from '../ui/Icons'
+import { PaperPeel } from '../ui/PaperPeel'
 import { SplitLines } from '../ui/SplitLines'
 
 export function Showreel() {
@@ -22,11 +23,11 @@ export function Showreel() {
     () => {
       gsap.from('[data-line]', { yPercent: 110, duration: 1.2, stagger: 0.1, scrollTrigger: { trigger: root.current, start: 'top 75%' } })
       if (reduced) return
-      // headline lines drift in opposite directions while the section passes
+      // headline lines drift in opposite directions and settle on the left margin
       gsap.fromTo(
-        '.line-mask',
-        { xPercent: (i: number) => (i === 0 ? -8 : 14) },
-        { xPercent: (i: number) => (i === 0 ? 6 : -4), ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'top top', scrub: 0.6 } },
+        'h2 .line-mask',
+        { xPercent: (i: number) => (i === 0 ? -6 : 10) },
+        { xPercent: (i: number) => (i === 0 ? 4 : 0), ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'top 35%', scrub: 0.6 } },
       )
       const mm = gsap.matchMedia()
       mm.add('(min-aspect-ratio: 1/1)', () => {
@@ -100,11 +101,13 @@ export function Showreel() {
             {showreel.label}
           </span>
         </div>
-        <p className="label text-stone md:text-right">
-          Reel {showreel.year}
-          <br />
-          Branding · Social · Motion
-        </p>
+        <PaperPeel className="self-start md:self-end">
+          <p className="label text-stone md:text-right">
+            Published in {showreel.year}
+            <br />
+            {showreel.tags}
+          </p>
+        </PaperPeel>
       </header>
 
       <div ref={wrap} className="relative h-[56.25vw] overflow-hidden [@media(min-aspect-ratio:1/1)]:h-[100svh]">
