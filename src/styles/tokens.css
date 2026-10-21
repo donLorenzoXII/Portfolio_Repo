@@ -1,0 +1,22 @@
+/* Design tokens — sampled from references/Color reference.jpg */
+:root {
+  /* colours as RGB triplets so Tailwind can apply alpha (bg-ink/50) */
+  --c-cream: 243 237 228; /* #F3EDE4 */
+  --c-ink: 26 26 26; /* #1A1A1A */
+  --c-terra: 200 98 63; /* #C8623F — accent only */
+  --c-stone: 138 132 124; /* #8A847C */
+  --c-hair: 217 209 197; /* #D9D1C5 hairlines */
+
+  --gutter: clamp(16px, 3.2vw, 48px);
+  --nav-h: 72px;
+  --radius-card: 14px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* type scale */
+  --fs-label: 0.6875rem; /* 11px */
+  --fs-body: clamp(0.95rem, 0.9rem + 0.2vw, 1.0625rem);
+  --fs-h2: clamp(2.75rem, 1.6rem + 5vw, 7rem);
+  --fs-h1: clamp(3.25rem, 1.5rem + 8vw, 10.5rem);
+}

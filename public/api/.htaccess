@@ -1,0 +1,6 @@
+# Requests to /api/* are rewritten to index.php (see ../.htaccess). Note: Apache checks access on the
+# *requested* path before that rewrite, so don't deny by pattern here — only the one-time setup file.
+Options -Indexes
+<Files ".setup-token">
+  Require all denied
+</Files>
